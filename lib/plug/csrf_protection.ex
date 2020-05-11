@@ -305,6 +305,12 @@ defmodule Plug.CSRFProtection do
           conn |> configure_session(ignore: true) |> clear_session()
 
         mode == :exception ->
+          Logger.error(
+            "CSRF Debug: csrf_token from session : #{csrf_token}. marked csrf_token from body_params: #{
+              Map.get(conn.body_params, "_csrf_token")
+            }}"
+          )
+
           raise InvalidCSRFTokenError
 
         true ->
